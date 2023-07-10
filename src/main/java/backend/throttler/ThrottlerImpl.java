@@ -45,7 +45,7 @@ public class ThrottlerImpl implements Throttler {
 		    }, 0, rateLimit);
 	}
 	public static void main(String args[]) throws InterruptedException {
-		ThrottlerImpl throttle = new ThrottlerImpl(10,new AtomicInteger(10));
+		ThrottlerImpl throttler = new ThrottlerImpl(10,new AtomicInteger(10));
 		
 	}
 

@@ -1,8 +1,11 @@
 package backend.throttler;
 
+import java.util.Queue;
+
 public interface Statistics {
 
-	int getMean();
+	long getMean();
 	int getMode();
 	int getPctile(int pctile);
+	Queue<Integer> getSequence();
 }

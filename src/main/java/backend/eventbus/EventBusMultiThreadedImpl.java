@@ -8,45 +8,25 @@ import java.util.function.Consumer;
 
 public class EventBusMultiThreadedImpl implements EventBus {
 	BlockingQueue<Event> eventQueue = new LinkedBlockingDeque<>();
-	private List<SubscriberImpl> subs = new ArrayList<>();
-	private Consumer<List<SubscriberImpl>> c = callBack();
+	private List<Subscriber> subs = new ArrayList<>();
+	private Consumer<List<Subscriber>> c = callBack();
 	
 	public EventBusMultiThreadedImpl() {
 		super();
 	}
 
 	@Override
-	public void addSubscriber(SubscriberImpl s) {
+	public void addSubscriber(Subscriber s) {
 		subs.add(s);
 	}
 
-	public static void main(String args[]) throws InterruptedException {
-		//List<Event> eventQueue = new ArrayList<>();
-		EventBusMultiThreadedImpl eventBus = new EventBusMultiThreadedImpl();
-		SubscriberImpl s1 = new SubscriberImpl(eventBus, "s1");
-		eventBus.addSubscriber(s1);
-		SubscriberImpl s2 = new SubscriberImpl(eventBus, "s2");
-		eventBus.addSubscriber(s2);
-		SubscriberImpl s3 = new SubscriberImpl(eventBus, "s3");
-		eventBus.addSubscriber(s3);
-		for(int i=0;i<20;i++) {
-			var e = new Event(String.valueOf(i));
-			Runnable r = () -> {
-				eventBus.publishEvent(e);
-			};
-			Thread t = new Thread(r);
-			t.start();
-			t.join();
-		}
-	}
-
 	@Override
-	public Consumer<List<SubscriberImpl>> callBack() {
+	public Consumer<List<Subscriber>> callBack() {
 		return sl -> {
 			Event event;
 			try {
 				event = eventQueue.take();
-				for (SubscriberImpl s : sl) {
+				for (Subscriber s : sl) {
 					s.receiveEvent(event);
 				}
 			} catch (InterruptedException e) {
@@ -69,4 +49,25 @@ public class EventBusMultiThreadedImpl implements EventBus {
 			e1.printStackTrace();
 		}
 	}
+	
+	public static void main(String args[]) throws InterruptedException {
+		//List<Event> eventQueue = new ArrayList<>();
+		EventBusMultiThreadedImpl eventBus = new EventBusMultiThreadedImpl();
+		Subscriber s1 = new SubscriberImpl(eventBus, "s1");
+		eventBus.addSubscriber(s1);
+		Subscriber s2 = new SubscriberImpl(eventBus, "s2");
+		eventBus.addSubscriber(s2);
+		Subscriber s3 = new SubscriberImpl(eventBus, "s3");
+		eventBus.addSubscriber(s3);
+		for(int i=0;i<20;i++) {
+			var e = new Event(String.valueOf(i));
+			Runnable r = () -> {
+				eventBus.publishEvent(e);
+			};
+			Thread t = new Thread(r);
+			t.start();
+			t.join();
+		}
+	}
+
 }

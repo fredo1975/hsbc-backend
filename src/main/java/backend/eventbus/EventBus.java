@@ -7,8 +7,8 @@ public interface EventBus {
 	// Feel free to replace Object with something more specific,
 	// but be prepared to justify it
 	void publishEvent(Event e);
-	void addSubscriber(SubscriberImpl s);
-	Consumer<List<SubscriberImpl>> callBack();
+	void addSubscriber(Subscriber s);
+	Consumer<List<Subscriber>> callBack();
 	/*
 	// How would you denote the subscriber?
 	void addSubscriber(Class<?> clazz, ???);

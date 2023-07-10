@@ -3,7 +3,7 @@ package backend.eventbus;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubscriberImpl {
+public class SubscriberImpl implements Subscriber{
 	private final String name;
 	List<Event> events;
 	public List<Event> getEvents() {
@@ -20,7 +20,7 @@ public class SubscriberImpl {
 		return name;
 	}
 
-	void receiveEvent(Event e) {
+	public void receiveEvent(Event e) {
 		System.out.println("received : "+e.toString()+ " by "+this.toString()+" on thread "+Thread.currentThread().getName());
 		events.add(e);
 	}
