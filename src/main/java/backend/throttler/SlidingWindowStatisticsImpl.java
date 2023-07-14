@@ -1,8 +1,5 @@
 package backend.throttler;
 
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 import backend.eventbus.Subscriber;
 
 public class SlidingWindowStatisticsImpl implements SlidingWindowStatistics {
